@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useMemo } from "react";
+
+const ExpensiveComponent = React.memo(({ number }) => {
+  console.log("Rendering Expensive Component...");
+  return <h3>Result: {number * 2}</h3>;
+});
 
 function App() {
+  const [count, setCount] = useState(0);
+  const [, setText] = useState("");
+
+  const expensiveCalculation = useMemo(() => {
+    console.log("Calculating...");
+    return count * 1000;
+  }, [count]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h1>React Performance Optimization 🚀</h1>
+
+      <button onClick={() => setCount(count + 1)}>
+        Increase Count
+      </button>
+
+      <h2>Count: {count}</h2>
+
+      <input
+        type="text"
+        placeholder="Type something..."
+        onChange={(e) => setText(e.target.value)}
+      />
+
+      <ExpensiveComponent number={expensiveCalculation} />
     </div>
   );
 }
