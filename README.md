@@ -1,13 +1,12 @@
 ## Performance Profiling
 
-In this project, a heavy computation (loop) was used to simulate a performance bottleneck.
+To identify performance bottlenecks, React DevTools Profiler can be used. It helps in analyzing component render times and detecting unnecessary re-renders.
 
-### Bottleneck
-The calculation was expensive and slowed down rendering.
+In this project, a heavy computation (loop) was introduced to simulate a performance bottleneck. Initially, the component re-rendered unnecessarily, causing performance issues.
 
-### Optimization
-- useMemo was used to cache the result and avoid unnecessary recalculations.
-- React.memo prevented unnecessary re-rendering of components.
+To optimize this:
 
-### Result
-The app performance improved by reducing redundant computations and renders.
+* **React.memo** was used to prevent unnecessary re-rendering of components.
+* **useMemo** was used to memoize expensive calculations.
+
+These optimizations significantly improved the rendering performance of the application.
