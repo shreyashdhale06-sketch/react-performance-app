@@ -1,17 +1,20 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, lazy, Suspense } from "react";
 
-const ExpensiveComponent = React.memo(({ number }) => {
-  console.log("Rendering Expensive Component...");
-  return <h3>Result: {number * 2}</h3>;
-});
+// 🔥 Lazy loaded component (Code Splitting)
+const ExpensiveComponent = lazy(() => import("./ExpensiveComponent"));
 
 function App() {
   const [count, setCount] = useState(0);
   const [, setText] = useState("");
 
+  // 🔥 Heavy computation (bottleneck simulation)
   const expensiveCalculation = useMemo(() => {
-    console.log("Calculating...");
-    return count * 1000;
+    console.log("Calculating heavy task...");
+    let result = 0;
+    for (let i = 0; i < 50000000; i++) {
+      result += 1;
+    }
+    return result + count;
   }, [count]);
 
   return (
@@ -30,7 +33,10 @@ function App() {
         onChange={(e) => setText(e.target.value)}
       />
 
-      <ExpensiveComponent number={expensiveCalculation} />
+      {/* 🔥 Suspense for lazy loading */}
+      <Suspense fallback={<p>Loading Component...</p>}>
+        <ExpensiveComponent number={expensiveCalculation} />
+      </Suspense>
     </div>
   );
 }
